@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Especial</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #fff0f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #8b5a7c;
+            transition: background-color 1s ease;
+        }
+        
+        .container {
+            max-width: 800px;
+            background-color: #ffedf4;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 25px rgba(221, 160, 221, 0.3);
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1, h2, h3 {
+            color: #ff69b4;
+            margin-bottom: 20px;
+        }
+        
+        input, button {
+            padding: 12px 18px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        input {
+            width: 80%;
+            border: 2px solid #ffb6c1;
+            background-color: #fffdfd;
+            color: #8b5a7c;
+            box-shadow: 0 3px 8px rgba(255, 182, 193, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            border-color: #ff69b4;
+            box-shadow: 0 3px 12px rgba(255, 105, 180, 0.3);
+            transform: scale(1.02);
+        }
+        
+        button {
+            background-color: #ff69b4;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+            width: 60%;
+        }
+        
+        button:hover {
+            background-color: #ff1493;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(255, 105, 180, 0.5);
+        }
+        
+        #loginSection, #quizSection, #resultSection, #letterSection {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+        
+        #welcomeSection {
+            animation: fadeIn 1s ease;
+        }
+        
+        .question {
+            background-color: #ffecf4;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(221, 160, 221, 0.2);
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+        
+        .question:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(221, 160, 221, 0.3);
+        }
+        
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .option {
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            background-color: #f8d7e8;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background-color: #ffc0cb;
+            transform: scale(1.05);
+        }
+        
+        .option.selected {
+            background-color: #ff69b4;
+            color: white;
+            border: 2px solid #ff1493;
+        }
+        
+        .heart {
+            color: #ff1493;
+            font-size: 24px;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .letter {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(221, 160, 221, 0.3);
+            position: relative;
+            margin: 20px 0;
+            text-align: left;
+            line-height: 1.6;
+            border: 2px dashed #ffb6c1;
+        }
+        
+        .letter::after {
+            content: "";
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24' fill='none' stroke='%23ff69b4' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'%3E%3C/path%3E%3C/svg%3E");
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            opacity: 0.4;
+        }
+        
+        .letter p {
+            margin: 10px 0;
+        }
+        
+        .signature {
+            font-style: italic;
+            text-align: right;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        
+        .hugs {
+            color: #ff1493;
+            font-weight: bold;
+            margin: 10px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        .floating {
+            position: absolute;
+            font-size: 20px;
+            color: #ff69b4;
+            opacity: 0;
+            animation: float 6s infinite linear;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(calc(100vw * var(--direction))) rotate(calc(360deg * var(--spin)));
+                opacity: 0;
+            }
+        }
+        
+        .emojiSection {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="emojiSection" id="emojiContainer"></div>
+    
+    <div class="container" id="welcomeSection">
+        <h1>✨ Bienvenido ✨</h1>
+        <p>Esta página está diseñada especialmente para alguien muy querido.</p>
+        <button onclick="showLoginSection()">Continuar</button>
+    </div>
+    
+    <div class="container" id="loginSection">
+        <h2>💖 Por favor ingresa tu nombre 💖</h2>
+        <input type="text" id="nameInput" placeholder="Escribe tu nombre aquí...">
+        <button onclick="checkName()">Verificar</button>
+    </div>
+    
+    <div class="container" id="quizSection">
+        <h2>Hola Diana Sofía 💕</h2>
+        <p>¡Qué bueno verte! Tengo unas preguntas para ti sobre  luis:</p>
+        
+        <div class="question">
+            <p>1. ¿me gustan los juegos?</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 0, 'si')">Sí</div>
+                <div class="option" onclick="selectOption(this, 0, 'no')">No</div>
+            </div>
+        </div>
+        
+        <div class="question">
+            <p>2. ¿soy alguien detallista?</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 1, 'si')">Sí</div>
+                <div class="option" onclick="selectOption(this, 1, 'no')">No</div>
+            </div>
+        </div>
+        
+        <div class="question">
+            <p>3. ¿me gusta hacerte sonreir?</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 2, 'si')">Sí</div>
+                <div class="option" onclick="selectOption(this, 2, 'no')">No</div>
+            </div>
+        </div>
+        
+        <div class="question">
+            <p>4. ¿me gusta pasar tiempo con tigo?</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 3, 'si')">Sí</div>
+                <div class="option" onclick="selectOption(this, 3, 'no')">No</div>
+            </div>
+        </div>
+        
+        <div class="question">
+            <p>5. ¿me gusta hacerte progamas?</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 4, 'si')">Sí</div>
+                <div class="option" onclick="selectOption(this, 4, 'no')">No</div>
+            </div>
+        </div>
+        
+        <button id="submitQuiz" onclick="evaluateAnswers()" disabled>Ver Resultados</button>
+    </div>
+    
+    <div class="container" id="resultSection">
+        <h2>Resultados del las preguntas 📝</h2>
+        <p>Has respondido correctamente <span id="correctCount">0</span> preguntas.</p>
+        <div id="wrongAnswers"></div>
+        <button onclick="showLetter()">Ver Carta Especial</button>
+    </div>
+    
+    <div class="container" id="letterSection">
+        <h2>Una Carta Para Ti <span class="heart">❤️</span></h2>
+        
+        <div class="letter">
+            <p>hola racista ntc sofi,</p>
+            
+            <p>Quería tomar un momento para decirte lo especial que eres para mí.aunque luego ni te acuerdes de mi,y ps luego ya no se que platicar contigo porque luego no coperas, pero recuerda que me gusta platicar contigo .</p>
+            
+            <p>Tu amistad es como un rayo de sol en días nublados. Tu humor, tu sonrisa, tu forma de ser, todo eso hace que este feliz simpre contigooooooo. auque luego me hases feo.</p>
+            
+            <p>Gracias por estar ahí, por los momentos de risas, por ayudarme anque estamos igual pero aun asi me aoyastes te lo agradesco.</p>
+            
+            <p>Espero que nuestra amistad siga creciendo y fortaleciéndose con el paso del tiempo. Siempre estaré aquí para ti, TKM SOFI.</p>
+            
+            <p>Con mucho cariño,</p>
+            <p class="signature">ATM luis el negro </p>
+        </div>
+        
+        <div class="hugs" id="hugMessage"></div>
+        
+        <button onclick="resetPage()">Volver a empezar</button>
+    </div>
+    
+    <script>
+        // Variables para el cuestionario
+        const correctAnswers = ['si', 'si', 'si', 'si', 'si'];
+        let userAnswers = new Array(5).fill(null);
+        let selectedOptions = new Array(5).fill(null);
+        let wrongQuestions = [];
+        
+        // Emojis flotantes
+        function createFloatingEmojis() {
+            const emojis = ['💖', '✨', '🌸', '💕', '🦋', '🌈', '🌷', '🌟'];
+            const container = document.getElementById('emojiContainer');
+            
+            setInterval(() => {
+                const emoji = document.createElement('div');
+                emoji.className = 'floating';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + 'vw';
+                emoji.style.setProperty('--direction', (Math.random() - 0.5).toFixed(2));
+                emoji.style.setProperty('--spin', (Math.random() - 0.5).toFixed(2));
+                container.appendChild(emoji);
+                
+                setTimeout(() => {
+                    container.removeChild(emoji);
+                }, 6000);
+            }, 800);
+        }
+        
+        // Iniciar emojis flotantes al cargar la página
+        window.onload = function() {
+            createFloatingEmojis();
+        };
+        
+        // Navegación entre secciones
+        function showLoginSection() {
+            document.getElementById('welcomeSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+        }
+        
+        function checkName() {
+            const nameInput = document.getElementById('nameInput').value.trim().toLowerCase();
+            
+            if (nameInput === 'diana sofia' || nameInput === 'diana sofía') {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('quizSection').style.display = 'block';
+                document.body.style.backgroundColor = '#ffecf5';
+            } else {
+                alert('Lo siento, esta página es especial para Diana Sofía.');
+            }
+        }
+        
+        function selectOption(element, questionIndex, answer) {
+            // Desmarcar la opción anteriormente seleccionada
+            if (selectedOptions[questionIndex]) {
+                selectedOptions[questionIndex].classList.remove('selected');
+            }
+            
+            // Marcar la nueva opción
+            element.classList.add('selected');
+            selectedOptions[questionIndex] = element;
+            userAnswers[questionIndex] = answer;
+            
+            // Verificar si todas las preguntas están respondidas
+            const allAnswered = userAnswers.every(ans => ans !== null);
+            document.getElementById('submitQuiz').disabled = !allAnswered;
+        }
+        
+        function evaluateAnswers() {
+            let correctCount = 0;
+            wrongQuestions = [];
+            
+            for (let i = 0; i < correctAnswers.length; i++) {
+                if (userAnswers[i] === correctAnswers[i]) {
+                    correctCount++;
+                } else {
+                    wrongQuestions.push(i + 1);
+                }
+            }
+            
+            document.getElementById('correctCount').textContent = correctCount;
+            
+            const wrongAnswersDiv = document.getElementById('wrongAnswers');
+            wrongAnswersDiv.innerHTML = '';
+            
+            if (wrongQuestions.length > 0) {
+                const hugMessage = document.createElement('p');
+                hugMessage.innerHTML = `Por cada respuesta incorrecta (preguntas ${wrongQuestions.join(', ')}), <span class="hugs">¡me debes un abrazo!</span>`;
+                wrongAnswersDiv.appendChild(hugMessage);
+                
+                document.getElementById('hugMessage').innerHTML = `Me debes ${wrongQuestions.length} ${wrongQuestions.length === 1 ? 'abrazo' : 'abrazos'} 🤗`;
+            } else {
+                const perfectMessage = document.createElement('p');
+                perfectMessage.innerHTML = '¡Felicidades! Respondiste todo correctamente. 🎉';
+                wrongAnswersDiv.appendChild(perfectMessage);
+                
+                document.getElementById('hugMessage').innerHTML = 'De todas formas, ¡¿me reglas un abrazo?! 🤗';
+            }
+            
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+        }
+        
+        function showLetter() {
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('letterSection').style.display = 'block';
+            document.body.style.backgroundColor = '#fff6fa';
+        }
+        
+        function resetPage() {
+            // Reiniciar variables
+            userAnswers = new Array(5).fill(null);
+            selectedOptions = new Array(5).fill(null);
+            wrongQuestions = [];
+            
+            // Desmarcar todas las opciones
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Reiniciar el botón de enviar
+            document.getElementById('submitQuiz').disabled = true;
+            
+            // Volver a la página inicial
+            document.getElementById('letterSection').style.display = 'none';
+            document.getElementById('nameInput').value = '';
+            document.getElementById('welcomeSection').style.display = 'block';
+            document.body.style.backgroundColor = '#fff0f5';
+        }
+    </script>
+</body>
+</html>
